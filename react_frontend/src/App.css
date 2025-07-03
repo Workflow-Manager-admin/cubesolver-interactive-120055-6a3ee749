@@ -1,0 +1,332 @@
+/* -------- Cube Solver Main Theme -------- */
+:root {
+  --color-primary: #1976d2;
+  --color-accent: #43a047;
+  --color-secondary: #ff9800;
+  --color-error: #e53935;
+  --color-bg: #f7fafc;
+  --color-surface: #fff;
+  --color-text: #212529;
+  --color-subtle: #e9ecef;
+  --color-grey: #576075;
+  --color-shadow: #32415812;
+  --navbar-height: 52px;
+  --footer-height: 40px;
+}
+
+body {
+  background: var(--color-bg);
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-text);
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif;
+}
+.App {
+  min-height: 100vh;
+  background: var(--color-bg);
+  position: relative;
+  text-align: initial;
+}
+
+/* ------ Navbar ------ */
+.cube-navbar {
+  background: var(--color-primary);
+  height: var(--navbar-height);
+  padding: 0 0.5rem 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  font-weight: 600;
+  top: 0;
+  z-index: 11;
+  letter-spacing: 0.04em;
+  font-size: 1.14rem;
+  box-shadow: 0 1px 2px var(--color-shadow);
+}
+.cube-navbar-title {
+  display: flex; align-items: center; font-size: 1.12rem;
+}
+.cube-navbar-link {
+  color: #fff;
+  text-decoration: underline wavy #43a04733;
+  margin-right: 0.7rem;
+  transition: opacity 0.18s;
+  font-size: 0.98rem;
+}
+.cube-navbar-link:hover { opacity: 0.8; }
+
+/* ------ Layout Main ------ */
+.cube-main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2vw;
+  background: var(--color-bg);
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  padding: 28px 18px 14px 18px;
+}
+.cube-editor-area {
+  flex: 1.32 1 340px;
+  max-width: 470px;
+  min-width: 276px;
+  background: var(--color-surface);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  padding: 21px 17px 8px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.cube-solution-area {
+  flex: 1 1 360px;
+  max-width: 440px;
+  min-width: 255px;
+  background: var(--color-surface);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  padding: 21px 17px 8px;
+  margin-bottom: 12px;
+  min-height: 285px;
+}
+
+/* ------ Cube Editor ------ */
+.cube-editor-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.cube-editor-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 11px;
+}
+.cube-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 8px;
+}
+.cube-color-btn {
+  width: 28px; height: 28px;
+  border: 2.5px solid #cfd8dc99;
+  border-radius: 50%;
+  margin-right: 4px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+  outline: none;
+  position: relative;
+}
+.cube-color-btn.selected {
+  border: 3px solid var(--color-primary);
+  box-shadow: 0 0 0 2.5px var(--color-secondary)44;
+}
+.cube-edit-faces-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.cube-face-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cube-face-title {
+  font-size: 0.96rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--color-grey);
+  letter-spacing: 0.11em;
+}
+.cube-face-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 28px);
+  gap: 2.3px;
+  margin-bottom: 2px;
+}
+.cube-face-cell {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1.2px solid #b6bfc6;
+  background: #eee;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: box-shadow 0.12s;
+  outline: none;
+  box-shadow: 0 0 0 1.6px #fff4;
+  font-size: 1rem;
+  padding: 0;
+}
+.cube-face-cell:focus, .cube-face-cell:hover {
+  outline: 2px solid var(--color-accent); z-index: 2;
+}
+
+.cube-edit-selected-label {
+  margin: 10px 0 8px 0;
+  font-size: 1rem;
+  color: var(--color-grey);
+  display: flex;
+  align-items: center;
+}
+.cube-paint-btn {
+  display: inline-block;
+  margin-left: 10px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 0.98rem;
+  padding: 7px 14px;
+  cursor: pointer;
+  margin-top: 0;
+  font-weight: 600;
+  transition: background 0.17s, box-shadow 0.17s;
+}
+.cube-paint-btn:disabled {
+  opacity: 0.63;
+  cursor: not-allowed;
+}
+
+/* ------ Cube Editor Actions ------ */
+.cube-editor-actions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  margin-top: 12px;
+  gap: 0.6rem;
+}
+.cube-solve-btn {
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 22px;
+  font-weight: 600;
+  font-size: 1.12rem;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  box-shadow: 0 1px 6px var(--color-shadow);
+  transition: background 0.16s, box-shadow 0.18s;
+}
+.cube-solve-btn:disabled { opacity: 0.68; cursor: not-allowed; }
+.cube-clear-btn {
+  background: var(--color-secondary);
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin-left: 16px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px var(--color-shadow);
+  transition: background 0.16s;
+}
+.cube-clear-btn:disabled { opacity: 0.63; cursor: not-allowed; }
+
+/* ------ Solution Panel ------ */
+.cube-solution-panel {
+  display: flex;
+  flex-direction: column;
+  background: none;
+}
+.cube-solution-title {
+  font-size: 1.20rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 9px;
+}
+.cube-solution-loading {
+  font-size: 1.08rem;
+  color: var(--color-grey);
+  font-style: italic;
+  margin-top: 16px;
+}
+.cube-solution-none {
+  color: #aaa;
+  font-size: 1.01rem;
+  margin-top: 12px;
+}
+.cube-solution-steps {
+  padding-left: 19px;
+  font-size: 1.08rem;
+  color: var(--color-primary);
+  margin-top: 7px;
+}
+.cube-solution-step {
+  margin-bottom: 5px;
+  margin-top: 1px;
+}
+.cube-solution-step::marker {
+  color: var(--color-secondary);
+}
+
+/* ------ Floating Reset Button ------ */
+.cube-floating-reset {
+  position: fixed;
+  bottom: 38px;
+  right: 38px;
+  border: none;
+  outline: none;
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0;
+  border-radius: 100px;
+  box-shadow: 0 3px 18px var(--color-shadow);
+  width: 58px;
+  height: 58px;
+  font-size: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0.96;
+  transition: background 0.15s, box-shadow 0.18s;
+}
+.cube-floating-reset:hover, .cube-floating-reset:focus {
+  background: #388e3c;
+  box-shadow: 0 8px 24px var(--color-shadow), 0 4px 16px #43a04712;
+}
+
+/* ------ Footer ------ */
+.cube-footer {
+  height: var(--footer-height);
+  background: #e9ecef;
+  color: #333a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.97rem;
+  font-weight: 400;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+  border-top: 1.3px solid #dee2e6;
+}
+
+@media (max-width: 900px) {
+  .cube-main {
+    flex-direction: column;
+    gap: 16px;
+    padding: 13px 6vw 10vw;
+    align-items: stretch;
+  }
+  .cube-editor-area, .cube-solution-area {
+    max-width: 100vw;
+    min-width: 0;
+    border-radius: 9px;
+    padding: 14px 8px 8px 8px;
+  }
+  .cube-footer { font-size: 0.89rem; }
+}
+@media (max-width: 576px) {
+  .cube-main {
+    padding: 4vw 0 16vw;
+  }
+  .cube-floating-reset {
+    bottom: 10vw; right: 10vw; width: 48px; height: 48px; font-size: 1.4rem;
+  }
+}
